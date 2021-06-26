@@ -1,0 +1,53 @@
+<form (submit)="onSubmit()" #givenDoseForm="ngForm">
+    <mat-form-field>
+        <input matInput placeholder="Lek" name="drug" required [(ngModel)]="givenDoseData.drug">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Data" name="date" required [(ngModel)]="givenDoseData.datee">
+    </mat-form-field>
+
+    <ng-container *ngIf="isEditMode; else elseTemplate">
+        <button mat-button color="primary">Zapisz zmiany</button>
+        <a mat-button color="warn" (click)="cancelEdit()">Anuluj</a>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <button mat-button color="primary">Dodaj</button>
+    </ng-template>
+</form>
+
+
+<div class="table-wrapper">
+
+    <!-- Form to edit/add row -->
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Id </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="drug">
+        <th mat-header-cell *matHeaderCellDef> Lek </th>
+        <td mat-cell *matCellDef="let element"> {{element.drug}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Data podania</th>
+        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+    </ng-container> -->
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+            <a href="javascript:void(0)" (click)="editItem(element)">Edytuj</a> |
+            <a href="javascript:void(0)" (click)="deleteGivenDose(element.id)">Usuń</a>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        [ngClass]="{'editable-row': givenDoseData.id === row.id}"></tr>
+</table>
+<!-- <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
+</div>
