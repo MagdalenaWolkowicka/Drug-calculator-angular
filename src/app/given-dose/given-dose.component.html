@@ -3,7 +3,7 @@
         <input matInput placeholder="Lek" name="drug" required [(ngModel)]="givenDoseData.drug">
     </mat-form-field>
     <mat-form-field>
-        <input matInput placeholder="Data" name="date" required [(ngModel)]="givenDoseData.datee">
+        <input matInput placeholder="Data" name="date" required [(ngModel)]="givenDoseData.dateOfAdministration">
     </mat-form-field>
 
     <ng-container *ngIf="isEditMode; else elseTemplate">
