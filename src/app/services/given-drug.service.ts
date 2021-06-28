@@ -18,6 +18,7 @@ export class GivenDrugService {
   private listGivenDosesUrl = 'http://localhost:8080/givenDoses';
   private saveGivenDoseUrl = 'http://localhost:8080/saveGivenDose';
   private deleteGivenDoseUrl = 'http://localhost:8080/deleteGivenDose';
+  private updateGivenDoseUrl = 'http://localhost:8080/updateGivenDose';
   constructor(private httpClient: HttpClient) { }
 
   getGivenDoses(): Observable<any> {
@@ -32,6 +33,11 @@ export class GivenDrugService {
   deleteGivenDose(drugId: number): Observable<GivenDose> {
     let params = new HttpParams().set("id", drugId);
     return this.httpClient.delete<GivenDose>(this.deleteGivenDoseUrl, {params: params});
+  }
+
+  updateGivenDose(givenDose: GivenDose): Observable<GivenDose> {
+    let givenDoseJson = JSON.stringify(givenDose)
+    return this.httpClient.put<GivenDose>(this.updateGivenDoseUrl, givenDoseJson, httpOptions);
   }
 
 }

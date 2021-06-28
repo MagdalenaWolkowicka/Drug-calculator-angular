@@ -20,7 +20,7 @@ export class GivenDoseComponent implements OnInit {
   givenDoseData: GivenDose;
 
   dataSource = new MatTableDataSource();
-  displayedColumns: string[] = ['id', 'drug', 'date', 'actions'];
+  displayedColumns: string[] = ['id', 'drug', 'dateOfAdministration', 'actions'];
 
   isEditMode = false;
 
@@ -59,12 +59,25 @@ export class GivenDoseComponent implements OnInit {
   }
 
   updateGivenDose() {
-    
+    this.givenDoseService.updateGivenDose(this.givenDoseData).subscribe((response: GivenDose) => {
+
+      // Approach #1 to update datatable data on local itself without fetching new data from server
+      this.dataSource.data = this.dataSource.data.map((o: any) => {
+        if (o.id === response.id) {
+          o = response;
+        }
+        return o;
+      })
+      this.cancelEdit()
+    });
 }
 
-  deleteGivenDose(id: any) {
-    this.givenDoseService.deleteGivenDose(id).subscribe();
-    this.getAllGivenDoses();
+deleteGivenDose(id: any) {
+  this.givenDoseService.deleteGivenDose(id).subscribe((response: any) => {
+    this.dataSource.data = this.dataSource.data.filter((o: any) => {
+      return o.id !== id ? o : false;
+    });
+})
 }
 
 onSubmit() {
